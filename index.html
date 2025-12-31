@@ -2,382 +2,342 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For My Motuuuuuuu 🥰</title>
+<title>Happy New Year Motuuuuuuu 🎆</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-    margin:0;padding:0;box-sizing:border-box;
-    font-family:'Comic Sans MS', cursive, sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Comic Sans MS',cursive}
 body{
-    min-height:100vh;
-    overflow-x:hidden;
-    background:linear-gradient(-45deg,#ff6b81,#feca57,#48dbfb,#1dd1a1);
-    background-size:400% 400%;
-    animation:bgMove 12s ease infinite;
+background:linear-gradient(-45deg,#ff6b81,#feca57,#48dbfb,#1dd1a1);
+background-size:400% 400%;
+animation:bg 12s infinite;
+overflow-x:hidden;
 }
-@keyframes bgMove{
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+@keyframes bg{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
-/* floating emojis */
+/* fireworks */
+.spark{
+position:fixed;width:6px;height:6px;border-radius:50%;
+background:gold;
+animation:fire 2s linear forwards;
+pointer-events:none;
+}
+@keyframes fire{
+to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}
+}
+
+/* floating shine */
 .float{
-    position:fixed;
-    font-size:2.5rem;
-    animation:floatUp 9s linear infinite;
-    opacity:.9;
-    pointer-events:none;
-    z-index:1;
+position:fixed;font-size:2.2rem;
+animation:floatUp 8s linear infinite;
+pointer-events:none;
 }
 @keyframes floatUp{
-    0%{transform:translateY(0) scale(1);opacity:0}
-    10%{opacity:1}
-    100%{transform:translateY(-120vh) scale(1.4);opacity:0}
+0%{transform:translateY(0);opacity:0}
+10%{opacity:1}
+100%{transform:translateY(-120vh);opacity:0}
 }
 
 .container{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    z-index:2;
-    position:relative;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
 }
 
-/* card */
 .card{
-    background:rgba(255,255,255,.95);
-    border-radius:30px;
-    padding:40px;
-    max-width:460px;
-    width:100%;
-    text-align:center;
-    box-shadow:0 25px 60px rgba(0,0,0,.4);
-    animation:pop 0.8s cubic-bezier(.68,-0.55,.27,1.55);
-    border:5px solid;
-    border-image:linear-gradient(45deg,#ff6b81,#48dbfb,#1dd1a1,#feca57) 1;
+background:white;
+border-radius:30px;
+padding:35px;
+max-width:450px;
+width:100%;
+text-align:center;
+box-shadow:0 25px 60px rgba(0,0,0,.4);
+animation:pop .8s;
+border:5px solid;
+border-image:linear-gradient(45deg,#ff6b81,#48dbfb,#1dd1a1) 1;
 }
 @keyframes pop{
-    0%{transform:scale(.3) rotate(-10deg);opacity:0}
-    100%{transform:scale(1) rotate(0);opacity:1}
+from{transform:scale(.4);opacity:0}
+to{transform:scale(1);opacity:1}
 }
 .hidden{display:none}
 
 h1{
-    font-size:2.6rem;
-    background:linear-gradient(45deg,#ff6b81,#48dbfb);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+font-size:2.5rem;
+background:linear-gradient(45deg,#ff6b81,#48dbfb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
-p{
-    font-size:1.25rem;
-    color:#444;
-    margin:20px 0;
-    font-weight:bold;
-}
+p{font-size:1.2rem;color:#444;margin:18px 0;font-weight:bold}
 
-/* flip card */
+/* flip cards */
 .scene{
-    width:320px;
-    height:460px;
-    perspective:1200px;
-    margin:25px auto;
-    cursor:pointer;
+width:300px;height:420px;
+perspective:1200px;
+margin:20px auto;
 }
 .flip{
-    width:100%;height:100%;
-    transition:transform .9s;
-    transform-style:preserve-3d;
+width:100%;height:100%;
+transform-style:preserve-3d;
+transition:.8s;
 }
 .flip.flipped{transform:rotateY(180deg)}
 .face{
-    position:absolute;
-    width:100%;height:100%;
-    border-radius:25px;
-    backface-visibility:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
+position:absolute;width:100%;height:100%;
+border-radius:25px;
+backface-visibility:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
 }
 .front{
-    background:linear-gradient(135deg,#ff6b81,#feca57);
-    font-size:5rem;
-    color:white;
+background:linear-gradient(135deg,#ff6b81,#feca57);
+font-size:5rem;color:white;
 }
 .back{
-    background:white;
-    transform:rotateY(180deg);
+background:white;transform:rotateY(180deg);
 }
-.back img,.back video{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
+.back img,.back video{width:100%;height:100%;object-fit:cover}
 .caption{
-    position:absolute;
-    bottom:0;
-    width:100%;
-    padding:15px;
-    background:linear-gradient(to top,rgba(0,0,0,.6),transparent);
-    color:white;
-    font-size:1.2rem;
+position:absolute;bottom:0;width:100%;
+padding:12px;
+background:linear-gradient(to top,rgba(0,0,0,.6),transparent);
+color:white;
 }
 
 /* buttons */
 .btn{
-    padding:16px 45px;
-    margin:12px;
-    border:none;
-    border-radius:60px;
-    font-size:1.25rem;
-    font-weight:bold;
-    cursor:pointer;
-    background:linear-gradient(45deg,#ff6b81,#ff2d55);
-    color:white;
-    box-shadow:0 10px 25px rgba(255,45,85,.6);
-    transition:.3s;
+padding:14px 40px;
+border:none;border-radius:50px;
+font-size:1.15rem;
+background:linear-gradient(45deg,#ff6b81,#ff2d55);
+color:white;
+box-shadow:0 10px 25px rgba(255,45,85,.6);
+cursor:pointer;
 }
+.green{background:linear-gradient(45deg,#1dd1a1,#10ac84)}
+.red{background:linear-gradient(45deg,#ff6b6b,#ee5253)}
 .btn:hover{transform:scale(1.08)}
-.btn.green{background:linear-gradient(45deg,#1dd1a1,#10ac84)}
-.btn.red{background:linear-gradient(45deg,#ff6b6b,#ee5253)}
 
 /* modal */
 .modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.85);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:999;
+position:fixed;inset:0;
+background:rgba(0,0,0,.85);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
 }
 .modal.show{display:flex}
-.modalBox{
-    background:white;
-    padding:40px;
-    border-radius:30px;
-    max-width:420px;
-    width:90%;
-    text-align:center;
-    animation:pop .6s cubic-bezier(.68,-0.55,.27,1.55);
+.box{
+background:white;
+padding:35px;
+border-radius:30px;
+max-width:420px;
+width:90%;
+text-align:center;
+animation:pop .6s;
 }
 .shake{animation:shake .6s}
 @keyframes shake{
-    0%,100%{transform:translateX(0)}
-    25%{transform:translateX(-10px)}
-    50%{transform:translateX(10px)}
-    75%{transform:translateX(-10px)}
-}
-
-/* hearts */
-.heart{
-    position:fixed;
-    font-size:3rem;
-    animation:burst 2.5s ease-out forwards;
-    pointer-events:none;
-}
-@keyframes burst{
-    to{
-        transform:translate(var(--x),var(--y)) rotate(720deg) scale(0);
-        opacity:0;
-    }
+0%,100%{transform:translateX(0)}
+25%{transform:translateX(-8px)}
+50%{transform:translateX(8px)}
+75%{transform:translateX(-8px)}
 }
 </style>
 </head>
 
 <body>
 
-<div id="floats"></div>
-
 <div class="container">
 
-<!-- CARD 1 -->
-<div id="c1" class="card">
-<h1>Oyeee Motuuuuuuu 🥰</h1>
-<p>Tayyarr ho ya nahi?  
-Drama, pyaar aur full pagalpan aa raha hai 😎</p>
-<button class="btn" onclick="showGate()">Chal Shuru Karte 😏</button>
+<!-- PAGE 1 -->
+<div id="p1" class="card">
+<h1>🎆 Happy New Year 2026 🎆</h1>
+<p>Motuuuuuuu 🥰  
+Tumhare liye ek cute sa gift 💖</p>
+<button class="btn" onclick="startGate()">Start 🎁</button>
 </div>
 
-<!-- CARD 2 -->
-<div id="c2" class="card hidden">
-<h1>Memory 1 💌</h1>
+<!-- PAGE 2 -->
+<div id="p2" class="card hidden">
+<h1>Memory 💌</h1>
 <div class="scene" onclick="flip(this)">
 <div class="flip">
 <div class="face front">💌</div>
-<div class="face back">
-<img src="./card1.jpg">
-<div class="caption">Beautiful Memories ✨</div>
-</div>
-</div>
-</div>
-<button class="btn" onclick="showGate()">Aage Badh Madam 😜</button>
+<div class="face back"><img src="card1.jpg"><div class="caption">Sweet Memories ✨</div></div>
+</div></div>
+<button class="btn" onclick="next()">Next 😏</button>
 </div>
 
-<!-- CARD 3 -->
-<div id="c3" class="card hidden">
-<h1>Memory 2 💛</h1>
+<!-- PAGE 3 -->
+<div id="p3" class="card hidden">
+<h1>Memory 💛</h1>
 <div class="scene" onclick="flip(this)">
 <div class="flip">
 <div class="face front">💛</div>
-<div class="face back">
-<img src="./card2.jpg">
-<div class="caption">Smiles & Love 💛</div>
-</div>
-</div>
-</div>
-<button class="btn" onclick="showGate()">Aur Dekhna Hai 😏</button>
+<div class="face back"><img src="card2.jpg"><div class="caption">Cute Smiles 💛</div></div>
+</div></div>
+<button class="btn" onclick="next()">Next 😌</button>
 </div>
 
-<!-- CARD 4 -->
-<div id="c4" class="card hidden">
-<h1>Memory 3 💫</h1>
+<!-- PAGE 4 -->
+<div id="p4" class="card hidden">
+<h1>Memory 💫</h1>
 <div class="scene" onclick="flip(this)">
 <div class="flip">
 <div class="face front">💫</div>
-<div class="face back">
-<img src="./card3.jpg">
-<div class="caption">Moments to Cherish 💫</div>
-</div>
-</div>
-</div>
-<button class="btn" onclick="showGate()">Last Surprise 😎</button>
+<div class="face back"><img src="card3.jpg"><div class="caption">Special Moments 💫</div></div>
+</div></div>
+<button class="btn" onclick="next()">Next 🎥</button>
 </div>
 
-<!-- CARD 5 -->
-<div id="c5" class="card hidden">
-<h1>Special Video 🎥</h1>
+<!-- PAGE 5 -->
+<div id="p5" class="card hidden">
+<h1>🎥 Video Gift</h1>
 <div class="scene" onclick="flip(this)">
 <div class="flip">
 <div class="face front">🎥</div>
-<div class="face back">
-<video src="./card4.mp4" controls playsinline></video>
-<div class="caption">Just Love ❤️</div>
+<div class="face back"><video src="card4.mp4" controls></video></div>
+</div></div>
+<button class="btn green" onclick="next()">Gift 🎁</button>
 </div>
-</div>
-</div>
-<button class="btn green" onclick="showLove()">Bas Ek Sawal 😌</button>
+
+<!-- PAGE 6 -->
+<div id="p6" class="card hidden">
+<h1>🎁 Happy New Year Gift 🎁</h1>
+<p>Wishing us more smiles, success & love 💖</p>
+<button class="btn green" onclick="showLove()">Final Question 💕</button>
 </div>
 
 </div>
 
-<!-- GATE MODAL -->
+<!-- GATE POPUP -->
 <div id="gate" class="modal">
-<div class="modalBox" id="gateBox">
-<h1>Oyeeee 😏</h1>
-<p id="gateText">Sach bata… V pasand hai kya? 😜</p>
-<button class="btn green" onclick="gateAns(true)">Bilkul Nahi 😌</button>
-<button class="btn red" onclick="gateAns(false)">Haan 😐</button>
+<div class="box" id="gateBox">
+<h1>Oye 😏</h1>
+<p id="gateText">Do you hate V? 🤔</p>
+<button class="btn green" onclick="gateAns(true)">Yes 😌</button>
+<button class="btn red" onclick="gateAns(false)">No / Neutral 😐</button>
 </div>
 </div>
 
-<!-- LOVE MODAL -->
+<!-- LOVE POPUP -->
 <div id="love" class="modal">
-<div class="modalBox" id="loveBox">
+<div class="box" id="loveBox">
 <h1 id="loveQ">Do you love Mohit? 💖</h1>
 <p id="loveMsg"></p>
-<button class="btn green" onclick="loveAns(true)">Obviously ❤️</button>
-<button class="btn red" onclick="loveAns(false)">Nahi 😐</button>
+<button class="btn green" onclick="loveAns(true)">Yes ❤️</button>
+<button class="btn red" onclick="loveAns(false)">No 😐</button>
 </div>
 </div>
 
-<audio id="bgm" src="./music.mp3" loop></audio>
+<audio id="bgm" src="music.mp3" loop></audio>
 
 <script>
-let card=1;
-let loveTry=0;
+let page=1, gateTry=0, loveTry=0;
 
 const gateLines=[
-"Oyeeee sach sach bol 😏",
-"Itna bhaav kyun? Celebrity ho kya 😜",
-"Dil se bolna allowed hai 😌",
-"Mohit dekh lega toh ro dega 😢",
-"Bas bas nautanki bandh 😎"
+"Soch lo 😏",
+"Mohit gussa ho jaayega 😠",
+"Pata chal gaya Mohit ko toh dekh lena 👀🔥",
+"Itna innocent mat bano 😜",
+"Last chance hai madam 😌",
+"Dil se bolna allowed hai 💖",
+"Acha acha maan liya 😎",
+"Bas YES bol do 😂"
 ];
 
 const loveLines=[
-"Soch le dhang se 🤨",
-"Drama mat kar 😏",
-"Itna attitude? Wah 👏",
-"Aisa ladka baar baar nahi milta 😎",
-"Bas kar… mujhe pata hai tu Mohit pe fida hai ❤️"
+"Soch lo acche se 🤨",
+"Drama mat karo 😏",
+"Mohit sad ho jaayega 😢",
+"Itna bhaav acha nahi 😜",
+"Mujhe already pata hai 😎❤️"
 ];
 
-function flip(el){
-    const f=el.querySelector('.flip');
-    f.classList.toggle('flipped');
-    document.getElementById('bgm').play().catch(()=>{});
+function startGate(){
+document.getElementById('gate').classList.add('show');
+fireworks();
 }
 
-function showGate(){
-    document.getElementById('gate').classList.add('show');
+function gateAns(yes){
+if(yes){
+document.getElementById('gate').classList.remove('show');
+next();
+}else{
+document.getElementById('gateText').innerText=
+gateLines[Math.min(gateTry++,gateLines.length-1)];
+shake('gateBox');
+fireworks();
+}
 }
 
-let gateCount=0;
-function gateAns(ok){
-    if(ok){
-        document.getElementById('gate').classList.remove('show');
-        document.getElementById('c'+card).classList.add('hidden');
-        card++;
-        document.getElementById('c'+card).classList.remove('hidden');
-    }else{
-        const box=document.getElementById('gateBox');
-        document.getElementById('gateText').innerText=
-            gateLines[Math.min(gateCount++,gateLines.length-1)];
-        box.classList.add('shake');
-        setTimeout(()=>box.classList.remove('shake'),600);
-    }
+function next(){
+document.getElementById('p'+page).classList.add('hidden');
+page++;
+document.getElementById('p'+page).classList.remove('hidden');
+document.getElementById('bgm').play().catch(()=>{});
 }
+
+function flip(el){el.querySelector('.flip').classList.toggle('flipped')}
 
 function showLove(){
-    document.getElementById('love').classList.add('show');
+document.getElementById('love').classList.add('show');
+fireworks(true);
 }
 
-function loveAns(yes){
-    if(yes){
-        document.getElementById('love').classList.remove('show');
-        blastHearts();
-        alert("😎💖 Mujhe pata tha!\nAb apni cute photos bhejo 📸😉");
-    }else{
-        document.getElementById('loveMsg').innerText=
-            loveLines[Math.min(loveTry++,loveLines.length-1)];
-        const box=document.getElementById('loveBox');
-        box.classList.add('shake');
-        setTimeout(()=>box.classList.remove('shake'),600);
-    }
+function loveAns(y){
+if(y){
+document.getElementById('love').classList.remove('show');
+fireworks(true);
+alert("🎆 Happy New Year Motuuuuuuu 🥰\nAb apni cute photos bhejo 📸😉");
+}else{
+document.getElementById('loveMsg').innerText=
+loveLines[Math.min(loveTry++,loveLines.length-1)];
+shake('loveBox');
+}
 }
 
-/* hearts blast */
-function blastHearts(){
-    for(let i=0;i<80;i++){
-        const h=document.createElement('div');
-        h.className='heart';
-        h.innerText='❤️';
-        h.style.left='50%';
-        h.style.top='50%';
-        h.style.setProperty('--x',(Math.random()-0.5)*1200+'px');
-        h.style.setProperty('--y',(Math.random()-0.5)*1200+'px');
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),2500);
-    }
+function shake(id){
+const el=document.getElementById(id);
+el.classList.add('shake');
+setTimeout(()=>el.classList.remove('shake'),600);
 }
 
-/* floating emojis */
-const emojis=['❤️','💖','💘','💝','✨','🌟','🎉','🎊','🦋','🌈'];
+/* fireworks */
+function fireworks(big=false){
+for(let i=0;i<(big?80:30);i++){
+const s=document.createElement('div');
+s.className='spark';
+s.style.left='50%';
+s.style.top='50%';
+s.style.setProperty('--x',(Math.random()-0.5)*1200+'px');
+s.style.setProperty('--y',(Math.random()-0.5)*1200+'px');
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),2000);
+}
+}
+
+/* floating shine */
+const icons=['✨','🌟','🎆','💖','🎉'];
 setInterval(()=>{
-    const f=document.createElement('div');
-    f.className='float';
-    f.innerText=emojis[Math.floor(Math.random()*emojis.length)];
-    f.style.left=Math.random()*100+'%';
-    f.style.bottom='-10%';
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),9000);
-},400);
+const f=document.createElement('div');
+f.className='float';
+f.innerText=icons[Math.floor(Math.random()*icons.length)];
+f.style.left=Math.random()*100+'%';
+f.style.bottom='-10%';
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),8000);
+},500);
 </script>
 
 </body>
