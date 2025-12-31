@@ -1,4 +1,3 @@
-<!-- force rebuild -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,261 +6,379 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    margin: 0;
-    background: linear-gradient(135deg,#ffe6f2,#ffd6eb);
-    font-family: 'Segoe UI', sans-serif;
-    overflow: hidden;
+*{
+    margin:0;padding:0;box-sizing:border-box;
+    font-family:'Comic Sans MS', cursive, sans-serif;
+}
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    background:linear-gradient(-45deg,#ff6b81,#feca57,#48dbfb,#1dd1a1);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+}
+@keyframes bgMove{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
 }
 
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.7s ease;
+/* floating emojis */
+.float{
+    position:fixed;
+    font-size:2.5rem;
+    animation:floatUp 9s linear infinite;
+    opacity:.9;
+    pointer-events:none;
+    z-index:1;
+}
+@keyframes floatUp{
+    0%{transform:translateY(0) scale(1);opacity:0}
+    10%{opacity:1}
+    100%{transform:translateY(-120vh) scale(1.4);opacity:0}
 }
 
-.hidden { transform: translateX(100%); }
-.active { transform: translateX(0); }
-
-.card {
-    width: 260px;
-    height: 380px;
-    perspective: 1000px;
+.container{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:2;
+    position:relative;
 }
 
-.card-inner {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
+/* card */
+.card{
+    background:rgba(255,255,255,.95);
+    border-radius:30px;
+    padding:40px;
+    max-width:460px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 25px 60px rgba(0,0,0,.4);
+    animation:pop 0.8s cubic-bezier(.68,-0.55,.27,1.55);
+    border:5px solid;
+    border-image:linear-gradient(45deg,#ff6b81,#48dbfb,#1dd1a1,#feca57) 1;
+}
+@keyframes pop{
+    0%{transform:scale(.3) rotate(-10deg);opacity:0}
+    100%{transform:scale(1) rotate(0);opacity:1}
+}
+.hidden{display:none}
+
+h1{
+    font-size:2.6rem;
+    background:linear-gradient(45deg,#ff6b81,#48dbfb);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+p{
+    font-size:1.25rem;
+    color:#444;
+    margin:20px 0;
+    font-weight:bold;
 }
 
-.card.open .card-inner { transform: rotateY(180deg); }
-
-.face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    backface-visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+/* flip card */
+.scene{
+    width:320px;
+    height:460px;
+    perspective:1200px;
+    margin:25px auto;
+    cursor:pointer;
+}
+.flip{
+    width:100%;height:100%;
+    transition:transform .9s;
+    transform-style:preserve-3d;
+}
+.flip.flipped{transform:rotateY(180deg)}
+.face{
+    position:absolute;
+    width:100%;height:100%;
+    border-radius:25px;
+    backface-visibility:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+.front{
+    background:linear-gradient(135deg,#ff6b81,#feca57);
+    font-size:5rem;
+    color:white;
+}
+.back{
+    background:white;
+    transform:rotateY(180deg);
+}
+.back img,.back video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.caption{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    padding:15px;
+    background:linear-gradient(to top,rgba(0,0,0,.6),transparent);
+    color:white;
+    font-size:1.2rem;
 }
 
-.front {
-    background: linear-gradient(45deg,#ff6b81,#ffb6c1);
-    font-size: 2.2rem;
-    color: white;
+/* buttons */
+.btn{
+    padding:16px 45px;
+    margin:12px;
+    border:none;
+    border-radius:60px;
+    font-size:1.25rem;
+    font-weight:bold;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ff6b81,#ff2d55);
+    color:white;
+    box-shadow:0 10px 25px rgba(255,45,85,.6);
+    transition:.3s;
+}
+.btn:hover{transform:scale(1.08)}
+.btn.green{background:linear-gradient(45deg,#1dd1a1,#10ac84)}
+.btn.red{background:linear-gradient(45deg,#ff6b6b,#ee5253)}
+
+/* modal */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+.modal.show{display:flex}
+.modalBox{
+    background:white;
+    padding:40px;
+    border-radius:30px;
+    max-width:420px;
+    width:90%;
+    text-align:center;
+    animation:pop .6s cubic-bezier(.68,-0.55,.27,1.55);
+}
+.shake{animation:shake .6s}
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-10px)}
+    50%{transform:translateX(10px)}
+    75%{transform:translateX(-10px)}
 }
 
-.back {
-    background: white;
-    transform: rotateY(180deg);
-    overflow: hidden;
+/* hearts */
+.heart{
+    position:fixed;
+    font-size:3rem;
+    animation:burst 2.5s ease-out forwards;
+    pointer-events:none;
 }
-
-.back img,.back video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.next-btn {
-    margin-top: 25px;
-    width: 70px;
-    height: 70px;
-    background: #ff6b81;
-    border-radius: 50%;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.popup {
-    position: fixed;
-    bottom: -100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff0f5;
-    padding: 20px;
-    border-radius: 25px;
-    width: 85%;
-    max-width: 330px;
-    text-align: center;
-    transition: bottom 0.5s;
-    z-index: 100;
-}
-
-.popup.show { bottom: 30px; }
-
-.popup button {
-    margin: 8px;
-    padding: 10px 18px;
-    border-radius: 20px;
-    border: none;
-    background: linear-gradient(45deg,#ff6b81,#ffb6c1);
-    color: white;
-    font-size: 1rem;
+@keyframes burst{
+    to{
+        transform:translate(var(--x),var(--y)) rotate(720deg) scale(0);
+        opacity:0;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div id="slides">
+<div id="floats"></div>
 
-<div class="slide active">
-<h2>This is for my motuuuuuuu 🥰😘😘</h2>
-<button class="next-btn" onclick="openGate()">❤️</button>
+<div class="container">
+
+<!-- CARD 1 -->
+<div id="c1" class="card">
+<h1>Oyeee Motuuuuuuu 🥰</h1>
+<p>Tayyarr ho ya nahi?  
+Drama, pyaar aur full pagalpan aa raha hai 😎</p>
+<button class="btn" onclick="showGate()">Chal Shuru Karte 😏</button>
 </div>
 
-<div class="slide hidden">
-<div class="card"><div class="card-inner">
+<!-- CARD 2 -->
+<div id="c2" class="card hidden">
+<h1>Memory 1 💌</h1>
+<div class="scene" onclick="flip(this)">
+<div class="flip">
 <div class="face front">💌</div>
-<div class="face back"><img src="card1.jpg"></div>
-</div></div>
-<button class="next-btn" onclick="openGate()">❤️</button>
+<div class="face back">
+<img src="./card1.jpg">
+<div class="caption">Beautiful Memories ✨</div>
+</div>
+</div>
+</div>
+<button class="btn" onclick="showGate()">Aage Badh Madam 😜</button>
 </div>
 
-<div class="slide hidden">
-<div class="card"><div class="card-inner">
+<!-- CARD 3 -->
+<div id="c3" class="card hidden">
+<h1>Memory 2 💛</h1>
+<div class="scene" onclick="flip(this)">
+<div class="flip">
 <div class="face front">💛</div>
-<div class="face back"><img src="card2.jpg"></div>
-</div></div>
-<button class="next-btn" onclick="openGate()">❤️</button>
+<div class="face back">
+<img src="./card2.jpg">
+<div class="caption">Smiles & Love 💛</div>
+</div>
+</div>
+</div>
+<button class="btn" onclick="showGate()">Aur Dekhna Hai 😏</button>
 </div>
 
-<div class="slide hidden">
-<div class="card"><div class="card-inner">
+<!-- CARD 4 -->
+<div id="c4" class="card hidden">
+<h1>Memory 3 💫</h1>
+<div class="scene" onclick="flip(this)">
+<div class="flip">
 <div class="face front">💫</div>
-<div class="face back"><img src="card3.jpg"></div>
-</div></div>
-<button class="next-btn" onclick="openGate()">❤️</button>
+<div class="face back">
+<img src="./card3.jpg">
+<div class="caption">Moments to Cherish 💫</div>
+</div>
+</div>
+</div>
+<button class="btn" onclick="showGate()">Last Surprise 😎</button>
 </div>
 
-<div class="slide hidden">
-<div class="card"><div class="card-inner">
+<!-- CARD 5 -->
+<div id="c5" class="card hidden">
+<h1>Special Video 🎥</h1>
+<div class="scene" onclick="flip(this)">
+<div class="flip">
 <div class="face front">🎥</div>
-<div class="face back"><video src="card4.mp4" muted playsinline></video></div>
-</div></div>
-<button class="next-btn" onclick="showLovePopup()">❤️</button>
+<div class="face back">
+<video src="./card4.mp4" controls playsinline></video>
+<div class="caption">Just Love ❤️</div>
+</div>
+</div>
+</div>
+<button class="btn green" onclick="showLove()">Bas Ek Sawal 😌</button>
 </div>
 
 </div>
 
-<!-- Gate Popup -->
-<div id="gate" class="popup">
-<h3 id="gateText"></h3>
-<button onclick="gateAnswer('yes')">Yes 😌</button>
-<button onclick="gateAnswer('no')">No 😐</button>
-<button onclick="gateAnswer('neutral')">Neutral 😶</button>
+<!-- GATE MODAL -->
+<div id="gate" class="modal">
+<div class="modalBox" id="gateBox">
+<h1>Oyeeee 😏</h1>
+<p id="gateText">Sach bata… V pasand hai kya? 😜</p>
+<button class="btn green" onclick="gateAns(true)">Bilkul Nahi 😌</button>
+<button class="btn red" onclick="gateAns(false)">Haan 😐</button>
+</div>
 </div>
 
-<!-- Love Popup -->
-<div id="love" class="popup">
-<h3 id="loveText">Do you love Mohit? ❤️</h3>
-<button onclick="loveAnswer(true)">Yes 🥰</button>
-<button onclick="loveAnswer(false)">No 🙄</button>
+<!-- LOVE MODAL -->
+<div id="love" class="modal">
+<div class="modalBox" id="loveBox">
+<h1 id="loveQ">Do you love Mohit? 💖</h1>
+<p id="loveMsg"></p>
+<button class="btn green" onclick="loveAns(true)">Obviously ❤️</button>
+<button class="btn red" onclick="loveAns(false)">Nahi 😐</button>
+</div>
 </div>
 
-<audio id="bgMusic" src="music.mp3" loop></audio>
+<audio id="bgm" src="./music.mp3" loop></audio>
 
 <script>
-const slides=document.querySelectorAll(".slide");
-let slideIndex=0;
+let card=1;
+let loveTry=0;
 
-let gateLines=[
-"I Hate V 😤",
-"Sach sach batao 😏",
-"Ab bhi NO? Dil se pooch lo ek baar ❤️",
-"Maan jao na yaar 🥺",
-"Itna bhi attitude acha nahi hota 😜",
-"Soch lo… Mohit ko pata chala toh fir kya hoga 😳",
-"Mohit ka dil toot jayega 😢",
-"Bas bas… sharmao mat 😌",
-"Aakhri mauka hai 😌",
-"Chalo maan liya… tum YES hi karogi 😎"
+const gateLines=[
+"Oyeeee sach sach bol 😏",
+"Itna bhaav kyun? Celebrity ho kya 😜",
+"Dil se bolna allowed hai 😌",
+"Mohit dekh lega toh ro dega 😢",
+"Bas bas nautanki bandh 😎"
 ];
+
+const loveLines=[
+"Soch le dhang se 🤨",
+"Drama mat kar 😏",
+"Itna attitude? Wah 👏",
+"Aisa ladka baar baar nahi milta 😎",
+"Bas kar… mujhe pata hai tu Mohit pe fida hai ❤️"
+];
+
+function flip(el){
+    const f=el.querySelector('.flip');
+    f.classList.toggle('flipped');
+    document.getElementById('bgm').play().catch(()=>{});
+}
+
+function showGate(){
+    document.getElementById('gate').classList.add('show');
+}
+
 let gateCount=0;
-
-function openGate(){
-    gateCount=0;
-    document.getElementById("gateText").innerText=gateLines[0];
-    document.getElementById("gate").classList.add("show");
-}
-
-function gateAnswer(ans){
-    if(ans==="yes"){
-        document.getElementById("gate").classList.remove("show");
-        slides[slideIndex].querySelector(".card")?.classList.add("open");
-        moveNext();
-        document.getElementById("bgMusic").play().catch(()=>{});
-    } else {
-        gateCount=Math.min(gateCount+1,gateLines.length-1);
-        document.getElementById("gateText").innerText=gateLines[gateCount];
+function gateAns(ok){
+    if(ok){
+        document.getElementById('gate').classList.remove('show');
+        document.getElementById('c'+card).classList.add('hidden');
+        card++;
+        document.getElementById('c'+card).classList.remove('hidden');
+    }else{
+        const box=document.getElementById('gateBox');
+        document.getElementById('gateText').innerText=
+            gateLines[Math.min(gateCount++,gateLines.length-1)];
+        box.classList.add('shake');
+        setTimeout(()=>box.classList.remove('shake'),600);
     }
 }
 
-function moveNext(){
-    slides[slideIndex].classList.remove("active");
-    slides[slideIndex].classList.add("hidden");
-    slideIndex++;
-    if(slideIndex<slides.length){
-        slides[slideIndex].classList.remove("hidden");
-        slides[slideIndex].classList.add("active");
-    }
+function showLove(){
+    document.getElementById('love').classList.add('show');
 }
 
-let loveLines=[
-"Soch lo acche se 🤨",
-"Ek aur baar soch lo 😏",
-"Ab bhi NO? Dil se pooch lo ek baar ❤️",
-"Maan jao na yaar 🥺",
-"Itna bhi attitude acha nahi hota 😜",
-"Aisa ladka dobara nahi milega 😌",
-"Dekh lo… baad mein pachtaogi 😤",
-"Mohit ka dil toot jayega 😢",
-"Bas bas… sharmao mat 😌",
-"Chhodo nautanki baaz 😎 mujhe pata hai tum Mohit se pyaar karti ho ❤️"
-];
-let loveCount=0;
-
-function showLovePopup(){
-    document.getElementById("love").classList.add("show");
-}
-
-function loveAnswer(yes){
+function loveAns(yes){
     if(yes){
-        explodeHearts();
-        document.getElementById("love").classList.remove("show");
-    } else {
-        document.getElementById("loveText").innerText=loveLines[Math.min(loveCount++,loveLines.length-1)];
+        document.getElementById('love').classList.remove('show');
+        blastHearts();
+        alert("😎💖 Mujhe pata tha!\nAb apni cute photos bhejo 📸😉");
+    }else{
+        document.getElementById('loveMsg').innerText=
+            loveLines[Math.min(loveTry++,loveLines.length-1)];
+        const box=document.getElementById('loveBox');
+        box.classList.add('shake');
+        setTimeout(()=>box.classList.remove('shake'),600);
     }
 }
 
-function explodeHearts(){
+/* hearts blast */
+function blastHearts(){
     for(let i=0;i<80;i++){
-        const h=document.createElement("div");
-        h.innerHTML="❤️";
-        h.style.position="fixed";
-        h.style.left=Math.random()*100+"vw";
-        h.style.top="100vh";
-        h.style.fontSize="2rem";
-        h.style.animation="floatUp 3s linear";
+        const h=document.createElement('div');
+        h.className='heart';
+        h.innerText='❤️';
+        h.style.left='50%';
+        h.style.top='50%';
+        h.style.setProperty('--x',(Math.random()-0.5)*1200+'px');
+        h.style.setProperty('--y',(Math.random()-0.5)*1200+'px');
         document.body.appendChild(h);
-        setTimeout(()=>h.remove(),3000);
+        setTimeout(()=>h.remove(),2500);
     }
 }
+
+/* floating emojis */
+const emojis=['❤️','💖','💘','💝','✨','🌟','🎉','🎊','🦋','🌈'];
+setInterval(()=>{
+    const f=document.createElement('div');
+    f.className='float';
+    f.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+    f.style.left=Math.random()*100+'%';
+    f.style.bottom='-10%';
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),9000);
+},400);
 </script>
 
 </body>
 </html>
-
