@@ -13,13 +13,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            /* VIBRANT ANIMATED BACKGROUND (FROM CODE 1) */
+            /* VIBRANT ANIMATED BACKGROUND */
             background: linear-gradient(-45deg, #ff0080, #ff8c00, #40e0d0, #8a2be2);
             background-size: 400% 400%;
             animation: bg 10s infinite;
             font-family: 'Poppins', sans-serif;
             overflow: hidden; 
-            height: 100dvh; /* Mobile Fullscreen Fix */
+            height: 100dvh; 
             width: 100vw;
             display: flex;
             justify-content: center;
@@ -33,13 +33,13 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- FIREWORKS CANVAS (BACKGROUND PHYSICS) --- */
+        /* --- FIREWORKS CANVAS --- */
         #fireworksCanvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0; pointer-events: none;
         }
 
-        /* --- FLOATING SHINE (FROM CODE 1) --- */
+        /* --- FLOATING SHINE ICONS --- */
         .float-icon {
             position: fixed; font-size: 2rem;
             animation: floatUp 8s linear infinite;
@@ -59,7 +59,7 @@
             display: flex; justify-content: center; align-items: center;
         }
 
-        /* --- THE SCREEN/CARD (MERGED STYLE) --- */
+        /* --- THE SCREEN/CARD --- */
         .screen {
             position: absolute;
             width: 100%;
@@ -70,13 +70,10 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             
-            /* GRADIENT BORDER (FROM CODE 1, REFINED FOR ROUNDED CORNERS) */
+            /* Gradient Border Style */
             border: 5px solid transparent;
             background-clip: padding-box;
             border-radius: 30px;
-            
-            /* This creates the gradient border effect while keeping rounded corners */
-            position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             
             padding: 30px 20px;
@@ -84,7 +81,7 @@
             text-align: center;
         }
         
-        /* The Gradient Border Pseudo-element */
+        /* Gradient Border Pseudo-element */
         .screen::before {
             content: ''; position: absolute; top: -5px; bottom: -5px; left: -5px; right: -5px;
             background: linear-gradient(45deg, #ff0080, #ff8c00, #40e0d0, #8a2be2);
@@ -147,7 +144,7 @@
         /* --- POPUPS (MODALS) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); /* Darker dim like Code 1 */
+            background: rgba(0,0,0,0.85);
             display: flex; justify-content: center; align-items: center;
             z-index: 1000; opacity: 0; pointer-events: none;
             transition: opacity 0.3s; backdrop-filter: blur(5px);
@@ -324,7 +321,7 @@
         document.getElementById('bgMusic').play().catch((e)=>console.log("Audio waiting for interaction"));
     }
 
-    // --- 2. PHYSICS FIREWORKS ENGINE (From Code 2 - Superior) ---
+    // --- 2. PHYSICS FIREWORKS ENGINE ---
     const canvas = document.getElementById('fireworksCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -336,34 +333,25 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Vibrant colors matching Code 1's theme
     const colors = ['#ff0080', '#ff8c00', '#40e0d0', '#8a2be2', '#ffd700', '#ffffff'];
 
     class Particle {
         constructor(x, y, color) {
             this.x = x; this.y = y; this.color = color;
             const angle = Math.random() * Math.PI * 2;
-            const speed = Math.random() * 6 + 2; // Faster explosion
+            const speed = Math.random() * 6 + 2;
             this.vx = Math.cos(angle) * speed;
             this.vy = Math.sin(angle) * speed;
             this.alpha = 1; this.gravity = 0.06; this.friction = 0.97;
         }
         draw() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, 4, 0, Math.PI * 2); // Bigger particles
-            ctx.fillStyle = this.color;
-            ctx.fill();
-            ctx.restore();
+            ctx.save(); ctx.globalAlpha = this.alpha; ctx.beginPath();
+            ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = this.color; ctx.fill(); ctx.restore();
         }
         update() {
-            this.vx *= this.friction;
-            this.vy *= this.friction;
-            this.vy += this.gravity;
-            this.x += this.vx;
-            this.y += this.vy;
-            this.alpha -= 0.015;
+            this.vx *= this.friction; this.vy *= this.friction; this.vy += this.gravity;
+            this.x += this.vx; this.y += this.vy; this.alpha -= 0.015;
         }
     }
 
@@ -375,7 +363,7 @@
     }
 
     function animateFireworks() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clean clear for transparent background
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         particles.forEach((p, index) => {
             if (p.alpha <= 0) particles.splice(index, 1);
             else { p.update(); p.draw(); }
@@ -385,7 +373,7 @@
     }
     animateFireworks();
 
-    // --- 3. FLOATING ICONS (From Code 1 - Added Touch) ---
+    // --- 3. FLOATING ICONS ---
     const icons = ['✨','🌟','🎆','💖','🎉', '🥰'];
     setInterval(() => {
         const f = document.createElement("div");
@@ -429,7 +417,7 @@
         }
     }
 
-    // --- GATE LOGIC ---
+    // --- GATE LOGIC (DO YOU HATE V?) ---
     function openGate() { document.getElementById('gate-modal').classList.add('show'); }
 
     function handleGate(isYes) {
@@ -441,7 +429,7 @@
             const box = document.getElementById('gate-box');
             box.classList.add('shake');
             setTimeout(() => box.classList.remove('shake'), 500);
-            launchFirework(); // Mocking firework
+            launchFirework(); 
 
             if (gateIndex < gateSlangs.length) {
                 document.getElementById('gate-text').innerText = gateSlangs[gateIndex];
@@ -459,7 +447,7 @@
         }
     }
 
-    // --- LOVE LOGIC ---
+    // --- LOVE LOGIC (DO YOU LOVE MOHIT?) ---
     function showLovePopup() {
         document.getElementById('love-question-modal').classList.add('show');
         launchFirework();
@@ -468,8 +456,8 @@
     function handleLove(isYes) {
         if(isYes) {
             document.getElementById('love-question-modal').classList.remove('show');
-            document.getElementById('final-modal').classList.add('show');
-            for(let i=0; i<15; i++) setTimeout(launchFirework, i*100); // Big celebration
+            document.getElementById('final-modal').classList.add('show'); // SHOW SEND PHOTOS POPUP
+            for(let i=0; i<15; i++) setTimeout(launchFirework, i*100); 
         } else {
             const box = document.getElementById('love-box');
             box.classList.add('shake');
