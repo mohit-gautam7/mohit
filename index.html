@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ff9a9e">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>For Motuuuuuuu ❤️</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap');
@@ -10,82 +12,89 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fad0c4 100%);
+            /* Cute Pastel Gradient Background */
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #a18cd1 100%);
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; /* Prevents scrolling, forces interaction */
-            height: 100vh;
+            overflow: hidden; 
+            height: 100dvh; /* Dynamic Height for Mobile */
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
-        /* --- BACKGROUND PARTICLES --- */
-        .particle {
+        /* --- FIREWORKS CANVAS (BACKGROUND) --- */
+        #fireworksCanvas {
             position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind everything */
             pointer-events: none;
-            animation: floatUp 8s linear infinite;
-            opacity: 0.6;
-            z-index: 0;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-        }
-
-        /* --- FIREWORKS EFFECT --- */
-        .spark {
-            position: absolute; width: 6px; height: 6px; border-radius: 50%;
-            background: gold; pointer-events: none; z-index: 9999;
-            animation: explode 1s ease-out forwards;
-        }
-        @keyframes explode {
-            to { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
         }
 
         /* --- MAIN CARD CONTAINER --- */
         .card-container {
             width: 90%;
             max-width: 400px;
-            height: 80vh;
+            height: auto;
+            min-height: 60vh;
             position: relative;
             z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .screen {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.85); /* Glass effect */
+            backdrop-filter: blur(8px);
             border-radius: 30px;
-            padding: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border: 3px solid #fff;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            padding: 30px 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 2px solid rgba(255,255,255,0.8);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
             text-align: center;
         }
-        .hidden { transform: scale(0.8); opacity: 0; pointer-events: none; z-index: -1; }
-        .active { transform: scale(1); opacity: 1; z-index: 5; }
+        
+        .hidden { 
+            transform: scale(0.5) translateY(100px); 
+            opacity: 0; 
+            pointer-events: none; 
+            z-index: -1; 
+        }
+        
+        .active { 
+            transform: scale(1) translateY(0); 
+            opacity: 1; 
+            z-index: 5; 
+        }
 
         /* --- TYPOGRAPHY --- */
         h1 {
             font-family: 'Pacifico', cursive;
-            color: #d63384;
-            font-size: 2rem;
+            background: -webkit-linear-gradient(45deg, #ff6b81, #ff9f43);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.2rem;
             margin-bottom: 15px;
             line-height: 1.2;
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));
         }
-        p { color: #555; font-size: 1.1rem; margin-bottom: 25px; }
+        p { color: #555; font-size: 1.1rem; margin-bottom: 25px; line-height: 1.5; }
 
         /* --- FLIP CARDS --- */
         .flip-box {
             background-color: transparent;
-            width: 280px; height: 380px;
+            width: 260px; height: 360px;
             perspective: 1000px;
             cursor: pointer;
             margin-bottom: 20px;
@@ -105,36 +114,39 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         .flip-front { background: linear-gradient(45deg, #ff9a9e, #fad0c4); color: white; }
-        .flip-front span { font-size: 4rem; }
-        .flip-back { background: white; transform: rotateY(180deg); padding: 5px; }
-        .media-content { width: 100%; height: 85%; object-fit: cover; border-radius: 15px; }
+        .flip-front span { font-size: 4rem; animation: bounce 2s infinite; }
+        .flip-back { background: white; transform: rotateY(180deg); padding: 5px; overflow: hidden; }
+        .media-content { width: 100%; height: 85%; object-fit: cover; border-radius: 15px 15px 0 0; }
         .caption { height: 15%; display: flex; align-items: center; justify-content: center; color: #d63384; font-weight: bold; }
+
+        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
 
         /* --- BUTTONS --- */
         .btn {
-            padding: 12px 30px; border: none; border-radius: 50px;
+            padding: 12px 35px; border: none; border-radius: 50px;
             font-size: 1rem; font-weight: 600; cursor: pointer;
             transition: transform 0.2s; margin: 5px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .btn:active { transform: scale(0.95); }
-        .btn-primary { background: #ff6b81; color: white; }
+        .btn:active { transform: scale(0.9); }
+        .btn-primary { background: linear-gradient(45deg, #ff6b81, #ff4757); color: white; }
         .btn-secondary { background: #f1f2f6; color: #333; }
-        .btn-start { background: linear-gradient(45deg, #ff6b81, #ff4757); color: white; font-size: 1.2rem; padding: 15px 40px; }
+        .btn-start { background: linear-gradient(45deg, #1dd1a1, #10ac84); color: white; font-size: 1.3rem; padding: 15px 50px; }
 
         /* --- POPUPS (MODALS) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             display: flex; justify-content: center; align-items: center;
             z-index: 1000;
             opacity: 0; pointer-events: none;
             transition: opacity 0.3s;
+            backdrop-filter: blur(5px);
         }
         .modal-overlay.show { opacity: 1; pointer-events: auto; }
         
         .modal-box {
-            background: white; width: 85%; max-width: 350px;
+            background: white; width: 85%; max-width: 320px;
             padding: 30px; border-radius: 25px;
             text-align: center;
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -149,23 +161,23 @@
         }
 
         /* --- SAD ANIMATION --- */
-        .sad-emoji { font-size: 4rem; display: block; margin: 10px 0; animation: cry 1.5s infinite; }
+        .sad-emoji { font-size: 5rem; display: block; margin: 15px 0; animation: cry 1.5s infinite; }
         @keyframes cry {
-            0% { transform: translateY(0); } 50% { transform: translateY(10px); } 100% { transform: translateY(0); }
+            0% { transform: translateY(0); } 50% { transform: translateY(10px); opacity: 0.8; } 100% { transform: translateY(0); opacity: 1; }
         }
 
     </style>
 </head>
 <body>
 
-    <div id="particles"></div>
+    <canvas id="fireworksCanvas"></canvas>
 
     <div class="card-container">
 
         <div id="screen-1" class="screen active">
             <h1>Happy New Year<br>2026 🎆</h1>
-            <p>For my Motuuuuuuu 🥰<br>Gift open karne ke liye ready?</p>
-            <button class="btn btn-start" onclick="openGate()">Click to Start 🎁</button>
+            <p>For my Motuuuuuuu 🥰<br>Ready for your surprise?</p>
+            <button class="btn btn-start" onclick="startExperience()">Open Gift 🎁</button>
         </div>
 
         <div id="screen-2" class="screen hidden">
@@ -257,7 +269,7 @@
 
     <div id="bye-modal" class="modal-overlay">
         <div class="modal-box">
-            <h1>Theek hai...<br>Bye Bye 😔</h1>
+            <h1 style="color: #ff4757;">Theek hai...<br>Bye Bye 😔</h1>
             <div class="sad-emoji">😭 😭 😭</div>
             <p>Happy New Year<br>V ke saath hi manao 🎆</p>
         </div>
@@ -276,7 +288,108 @@
     </audio>
 
 <script>
-    // --- VARIABLES ---
+    // --- 1. FULL SCREEN & AUDIO TRIGGER ---
+    function startExperience() {
+        // Attempt to trigger Full Screen for Android
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen().catch((err) => console.log("Fullscreen denied", err));
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
+
+        // Trigger Gate Popup
+        openGate();
+        
+        // Start Audio (User Interaction Required)
+        document.getElementById('bgMusic').play().catch((e)=>console.log("Audio waiting for interaction"));
+    }
+
+    // --- 2. ADVANCED CANVAS FIREWORKS SYSTEM ---
+    const canvas = document.getElementById('fireworksCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    
+    // Resize canvas to fill screen
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Vibrant Colors for Firecrackers
+    const colors = ['#ff0043', '#14fc56', '#1e90ff', '#ff7e00', '#ffff00', '#9900ff', '#ffffff'];
+
+    class Particle {
+        constructor(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            // Random velocity spread
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 5 + 2;
+            this.vx = Math.cos(angle) * speed;
+            this.vy = Math.sin(angle) * speed;
+            this.alpha = 1;
+            this.gravity = 0.05;
+            this.friction = 0.98;
+        }
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.restore();
+        }
+        update() {
+            this.vx *= this.friction;
+            this.vy *= this.friction;
+            this.vy += this.gravity;
+            this.x += this.vx;
+            this.y += this.vy;
+            this.alpha -= 0.015; // Fade out
+        }
+    }
+
+    function launchFirework() {
+        // Create an explosion at random position
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * (canvas.height * 0.6); // Top 60% of screen
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        for (let i = 0; i < 40; i++) { // 40 particles per explosion
+            particles.push(new Particle(x, y, color));
+        }
+    }
+
+    function animateFireworks() {
+        ctx.fillStyle = 'rgba(255, 230, 250, 0.2)'; // Light trail effect (matches pastel bg)
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // Clear screen slightly
+
+        particles.forEach((p, index) => {
+            if (p.alpha <= 0) {
+                particles.splice(index, 1);
+            } else {
+                p.update();
+                p.draw();
+            }
+        });
+
+        // Randomly launch new fireworks (approx every 40 frames)
+        if (Math.random() < 0.05) { 
+            launchFirework(); 
+        }
+
+        requestAnimationFrame(animateFireworks);
+    }
+    animateFireworks(); // Start animation loop
+
+    // --- 3. GATE LOGIC (THE PRANK) ---
     const gateSlangs = [
         "Soch lo 😏",
         "Neutral bhi NO hi hota hai waise 😜",
@@ -289,53 +402,9 @@
         "Theek hai… lagta hai faisla pakka hai 😔"
     ];
     let gateIndex = 0;
-    
-    // --- BACKGROUND PARTICLES ---
-    function createParticles() {
-        const container = document.getElementById('particles');
-        const icons = ['❤️', '✨', '🌸', '🍬'];
-        for(let i=0; i<20; i++){
-            let p = document.createElement('div');
-            p.className = 'particle';
-            p.innerText = icons[Math.floor(Math.random()*icons.length)];
-            p.style.left = Math.random()*100 + 'vw';
-            p.style.animationDuration = (Math.random()*5 + 5) + 's';
-            p.style.fontSize = (Math.random()*20 + 10) + 'px';
-            container.appendChild(p);
-        }
-    }
-    createParticles();
 
-    // --- NAVIGATION ---
-    function nextScreen(id) {
-        // Hide all screens
-        document.querySelectorAll('.screen').forEach(s => {
-            s.classList.remove('active');
-            s.classList.add('hidden');
-        });
-        // Show target screen
-        const target = document.getElementById('screen-' + id);
-        target.classList.remove('hidden');
-        target.classList.add('active');
-        
-        // Play music on first interaction if not playing
-        document.getElementById('bgMusic').play().catch(()=>{});
-    }
-
-    function flipCard(card) {
-        card.classList.toggle('flipped');
-        // If video, play it
-        const vid = card.querySelector('video');
-        if(vid) {
-            if(card.classList.contains('flipped')) vid.play();
-            else vid.pause();
-        }
-    }
-
-    // --- GATE LOGIC (THE PRANK) ---
     function openGate() {
         document.getElementById('gate-modal').classList.add('show');
-        fireworks();
     }
 
     function handleGate(isYes) {
@@ -343,64 +412,65 @@
         const gateText = document.getElementById('gate-text');
 
         if (isYes) {
-            // SUCCESS
             document.getElementById('gate-modal').classList.remove('show');
             nextScreen(2); // Go to first card
-            fireworks();
+            // Trigger a massive firework celebration
+            for(let i=0; i<5; i++) setTimeout(launchFirework, i*200);
         } else {
-            // FAIL / PRANK
-            fireworks(); // Visuals for fun
-            
-            // Add shake animation
+            // Negative response effect
             gateBox.classList.add('shake');
             setTimeout(() => gateBox.classList.remove('shake'), 500);
+            launchFirework(); // Mocking firework
 
             if (gateIndex < gateSlangs.length) {
-                // Show next slang
                 gateText.innerText = gateSlangs[gateIndex];
                 gateIndex++;
             } else {
-                // TRIGGER BYE BYE
+                // Show Bye Bye
                 document.getElementById('gate-modal').classList.remove('show');
                 document.getElementById('bye-modal').classList.add('show');
                 
-                // Reset after 5 seconds so they can actually continue
                 setTimeout(() => {
                     document.getElementById('bye-modal').classList.remove('show');
                     document.getElementById('gate-modal').classList.add('show');
                     gateText.innerText = "Mazaak tha! Ab YES bolo jaldi 😜";
-                    gateIndex = 0; // Reset logic
+                    gateIndex = 0;
                 }, 5000);
             }
         }
     }
 
-    // --- FINAL LOVE POPUP ---
+    // --- 4. NAVIGATION LOGIC ---
+    function nextScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => {
+            s.classList.remove('active');
+            s.classList.add('hidden');
+        });
+        const target = document.getElementById('screen-' + id);
+        target.classList.remove('hidden');
+        target.classList.add('active');
+    }
+
+    function flipCard(card) {
+        card.classList.toggle('flipped');
+        const vid = card.querySelector('video');
+        if(vid) {
+            if(card.classList.contains('flipped')) vid.play();
+            else vid.pause();
+        }
+    }
+
     function showLovePopup() {
         document.getElementById('love-modal').classList.add('show');
-        fireworks();
+        // Final massive celebration
+        for(let i=0; i<10; i++) setTimeout(launchFirework, i*100);
     }
+    
     function closeAll() {
         document.getElementById('love-modal').classList.remove('show');
         alert("Happy New Year! ❤️");
     }
 
-    // --- VISUAL EFFECTS (FIREWORKS) ---
-    function fireworks() {
-        for(let i=0; i<30; i++) {
-            let s = document.createElement('div');
-            s.className = 'spark';
-            s.style.left = '50%'; 
-            s.style.top = '50%';
-            let x = (Math.random() - 0.5) * 500 + 'px';
-            let y = (Math.random() - 0.5) * 500 + 'px';
-            s.style.setProperty('--x', x);
-            s.style.setProperty('--y', y);
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 1000);
-        }
-    }
 </script>
-
 </body>
 </html>
