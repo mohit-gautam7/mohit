@@ -19,29 +19,6 @@ overflow-x:hidden;
 100%{background-position:0% 50%}
 }
 
-/* fireworks */
-.spark{
-position:fixed;width:6px;height:6px;border-radius:50%;
-background:gold;
-animation:fire 2s linear forwards;
-pointer-events:none;
-}
-@keyframes fire{
-to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}
-}
-
-/* floating shine */
-.float{
-position:fixed;font-size:2.2rem;
-animation:floatUp 8s linear infinite;
-pointer-events:none;
-}
-@keyframes floatUp{
-0%{transform:translateY(0);opacity:0}
-10%{opacity:1}
-100%{transform:translateY(-120vh);opacity:0}
-}
-
 .container{
 min-height:100vh;
 display:flex;
@@ -76,34 +53,18 @@ background:linear-gradient(45deg,#ff6b81,#48dbfb);
 }
 p{font-size:1.2rem;color:#444;margin:18px 0;font-weight:bold}
 
-/* flip cards */
-.scene{
-width:300px;height:420px;
-perspective:1200px;
-margin:20px auto;
-}
-.flip{
-width:100%;height:100%;
-transform-style:preserve-3d;
-transition:.8s;
-}
+/* Flip cards */
+.scene{width:300px;height:420px;perspective:1200px;margin:20px auto}
+.flip{width:100%;height:100%;transform-style:preserve-3d;transition:.8s}
 .flip.flipped{transform:rotateY(180deg)}
 .face{
 position:absolute;width:100%;height:100%;
 border-radius:25px;
 backface-visibility:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
+display:flex;justify-content:center;align-items:center;overflow:hidden
 }
-.front{
-background:linear-gradient(135deg,#ff6b81,#feca57);
-font-size:5rem;color:white;
-}
-.back{
-background:white;transform:rotateY(180deg);
-}
+.front{background:linear-gradient(135deg,#ff6b81,#feca57);font-size:5rem;color:white}
+.back{background:white;transform:rotateY(180deg)}
 .back img,.back video{width:100%;height:100%;object-fit:cover}
 .caption{
 position:absolute;bottom:0;width:100%;
@@ -112,10 +73,9 @@ background:linear-gradient(to top,rgba(0,0,0,.6),transparent);
 color:white;
 }
 
-/* buttons */
+/* Buttons */
 .btn{
-padding:14px 40px;
-border:none;border-radius:50px;
+padding:14px 40px;border:none;border-radius:50px;
 font-size:1.15rem;
 background:linear-gradient(45deg,#ff6b81,#ff2d55);
 color:white;
@@ -126,7 +86,7 @@ cursor:pointer;
 .red{background:linear-gradient(45deg,#ff6b6b,#ee5253)}
 .btn:hover{transform:scale(1.08)}
 
-/* modal */
+/* Modals */
 .modal{
 position:fixed;inset:0;
 background:rgba(0,0,0,.85);
@@ -152,6 +112,28 @@ animation:pop .6s;
 50%{transform:translateX(8px)}
 75%{transform:translateX(-8px)}
 }
+
+/* Firecrackers */
+.spark{
+position:fixed;width:6px;height:6px;border-radius:50%;
+background:gold;
+animation:fire 2s linear forwards;
+pointer-events:none;
+}
+@keyframes fire{
+to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}
+}
+
+/* Crying emoji */
+.cry{
+font-size:3rem;
+animation:cry 1.2s infinite;
+}
+@keyframes cry{
+0%{transform:translateY(0)}
+50%{transform:translateY(10px)}
+100%{transform:translateY(0)}
+}
 </style>
 </head>
 
@@ -163,7 +145,7 @@ animation:pop .6s;
 <div id="p1" class="card">
 <h1>🎆 Happy New Year 2026 🎆</h1>
 <p>Motuuuuuuu 🥰  
-Tumhare liye ek cute sa gift 💖</p>
+Tumhare liye ek chhota sa gift 💖</p>
 <button class="btn" onclick="startGate()">Start 🎁</button>
 </div>
 
@@ -214,7 +196,7 @@ Tumhare liye ek cute sa gift 💖</p>
 <!-- PAGE 6 -->
 <div id="p6" class="card hidden">
 <h1>🎁 Happy New Year Gift 🎁</h1>
-<p>Wishing us more smiles, success & love 💖</p>
+<p>Wishing us success, smiles & happiness 💖</p>
 <button class="btn green" onclick="showLove()">Final Question 💕</button>
 </div>
 
@@ -223,10 +205,20 @@ Tumhare liye ek cute sa gift 💖</p>
 <!-- GATE POPUP -->
 <div id="gate" class="modal">
 <div class="box" id="gateBox">
-<h1>Oye 😏</h1>
-<p id="gateText">Do you hate V? 🤔</p>
-<button class="btn green" onclick="gateAns(true)">Yes 😌</button>
-<button class="btn red" onclick="gateAns(false)">No / Neutral 😐</button>
+<h1>🤔 Question</h1>
+<p id="gateText">Do you hate V?</p>
+<button class="btn green" onclick="gateAnswer(true)">Yes</button>
+<button class="btn red" onclick="gateAnswer(false)">No / Neutral</button>
+</div>
+</div>
+
+<!-- BYE POPUP -->
+<div id="bye" class="modal">
+<div class="box">
+<h1>😔 Bye Bye</h1>
+<p>Happy New Year  
+V ke saath manao 🎆</p>
+<div class="cry">😭😭😭</div>
 </div>
 </div>
 
@@ -245,18 +237,19 @@ Tumhare liye ek cute sa gift 💖</p>
 <script>
 let page=1, gateTry=0, loveTry=0;
 
-const gateLines=[
+const gateSlangs=[
 "Soch lo 😏",
+"Neutral bhi NO hi hota hai 😜",
 "Mohit gussa ho jaayega 😠",
 "Pata chal gaya Mohit ko toh dekh lena 👀🔥",
-"Itna innocent mat bano 😜",
-"Last chance hai madam 😌",
-"Dil se bolna allowed hai 💖",
-"Acha acha maan liya 😎",
-"Bas YES bol do 😂"
+"Itna bhaav kis baat ka 😌",
+"Dil se pooch lo ek baar ❤️",
+"Last warning madam 😎",
+"Ab bhi NO? 😐",
+"Theek hai… faisla pakka 😔"
 ];
 
-const loveLines=[
+const loveSlangs=[
 "Soch lo acche se 🤨",
 "Drama mat karo 😏",
 "Mohit sad ho jaayega 😢",
@@ -265,79 +258,70 @@ const loveLines=[
 ];
 
 function startGate(){
-document.getElementById('gate').classList.add('show');
+document.getElementById("gate").classList.add("show");
 fireworks();
 }
 
-function gateAns(yes){
+function gateAnswer(yes){
 if(yes){
-document.getElementById('gate').classList.remove('show');
+document.getElementById("gate").classList.remove("show");
 next();
 }else{
-document.getElementById('gateText').innerText=
-gateLines[Math.min(gateTry++,gateLines.length-1)];
-shake('gateBox');
 fireworks();
+document.getElementById("gateText").innerText=
+gateSlangs[Math.min(gateTry++,gateSlangs.length-1)];
+shake("gateBox");
+if(gateTry===gateSlangs.length){
+document.getElementById("gate").classList.remove("show");
+document.getElementById("bye").classList.add("show");
+}
 }
 }
 
 function next(){
-document.getElementById('p'+page).classList.add('hidden');
+document.getElementById("p"+page).classList.add("hidden");
 page++;
-document.getElementById('p'+page).classList.remove('hidden');
-document.getElementById('bgm').play().catch(()=>{});
+document.getElementById("p"+page).classList.remove("hidden");
+document.getElementById("bgm").play().catch(()=>{});
 }
 
-function flip(el){el.querySelector('.flip').classList.toggle('flipped')}
+function flip(el){el.querySelector(".flip").classList.toggle("flipped")}
 
 function showLove(){
-document.getElementById('love').classList.add('show');
+document.getElementById("love").classList.add("show");
 fireworks(true);
 }
 
 function loveAns(y){
 if(y){
-document.getElementById('love').classList.remove('show');
+document.getElementById("love").classList.remove("show");
 fireworks(true);
 alert("🎆 Happy New Year Motuuuuuuu 🥰\nAb apni cute photos bhejo 📸😉");
 }else{
-document.getElementById('loveMsg').innerText=
-loveLines[Math.min(loveTry++,loveLines.length-1)];
-shake('loveBox');
+document.getElementById("loveMsg").innerText=
+loveSlangs[Math.min(loveTry++,loveSlangs.length-1)];
+shake("loveBox");
 }
 }
 
 function shake(id){
 const el=document.getElementById(id);
-el.classList.add('shake');
-setTimeout(()=>el.classList.remove('shake'),600);
+el.classList.add("shake");
+setTimeout(()=>el.classList.remove("shake"),600);
 }
 
-/* fireworks */
 function fireworks(big=false){
 for(let i=0;i<(big?80:30);i++){
-const s=document.createElement('div');
-s.className='spark';
-s.style.left='50%';
-s.style.top='50%';
-s.style.setProperty('--x',(Math.random()-0.5)*1200+'px');
-s.style.setProperty('--y',(Math.random()-0.5)*1200+'px');
+const s=document.createElement("div");
+s.className="spark";
+s.style.left="50%";
+s.style.top="50%";
+s.style.setProperty("--x",(Math.random()-0.5)*1200+"px");
+s.style.setProperty("--y",(Math.random()-0.5)*1200+"px");
 document.body.appendChild(s);
 setTimeout(()=>s.remove(),2000);
 }
 }
-
-/* floating shine */
-const icons=['✨','🌟','🎆','💖','🎉'];
-setInterval(()=>{
-const f=document.createElement('div');
-f.className='float';
-f.innerText=icons[Math.floor(Math.random()*icons.length)];
-f.style.left=Math.random()*100+'%';
-f.style.bottom='-10%';
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),8000);
-},500);
 </script>
 
 </body>
